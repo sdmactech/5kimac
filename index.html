@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>5K iMac Display Conversion</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@600;700&display=swap">
+<style>
+/* Layout: one readable column, like a service write-up; tables scroll on their own on phones */
+:root{
+  --bg:#f5f7f9; --surface:#ffffff; --fg:#1b2129; --muted:#5b6673; --line:#dde3ea;
+  --accent:#1f6fd1; --accent-soft:#e6effb; --warn:#a4570a; --warn-soft:#fbf0e3; --ok:#22794a; --ok-soft:#e5f4ec;
+  --display:"Sora","IBM Plex Sans",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161b; --surface:#1a2027; --fg:#e6ebf0; --muted:#9aa6b2; --line:#2c343e;
+  --accent:#6aa8f2; --accent-soft:#1c2d42; --warn:#e8a65c; --warn-soft:#33261a; --ok:#6cc995; --ok-soft:#18301f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161b; --surface:#1a2027; --fg:#e6ebf0; --muted:#9aa6b2; --line:#2c343e;
+  --accent:#6aa8f2; --accent-soft:#1c2d42; --warn:#e8a65c; --warn-soft:#33261a; --ok:#6cc995; --ok-soft:#18301f; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body)}
+.wrap{max-width:860px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:40px}
+header{display:flex;flex-direction:column;gap:10px}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 clamp(28px,5vw,40px)/1.15 var(--display);margin:0;text-wrap:balance}
+h2{font:600 22px/1.25 var(--display);margin:0 0 12px;text-wrap:balance}
+h3{font:600 16px/1.3 var(--body);margin:0 0 6px}
+p{margin:0;max-width:68ch}
+.lede{font-size:18px;color:var(--muted);max-width:62ch}
+section{display:flex;flex-direction:column;gap:14px}
+a{color:var(--accent);text-underline-offset:2px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.sum div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.sum b{display:block;font:600 24px/1.2 var(--display);font-variant-numeric:tabular-nums}
+.sum span{font-size:13px;color:var(--muted)}
+.check{background:var(--accent-soft);border-radius:10px;padding:16px 18px}
+.check code,.mono{font-family:var(--mono);font-size:.92em}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.cols>div{min-width:0}
+ul.k{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+ul.k li{padding-left:22px;position:relative}
+ul.k li::before{position:absolute;left:0;font-weight:600}
+.keep li::before{content:"+";color:var(--ok)}
+.lose li::before{content:"\2212";color:var(--warn)}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:14px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:12px}
+ol.steps li::before{content:counter(s);font:500 13px/32px var(--mono);text-align:center;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);color:var(--muted)}
+ol.steps p{color:var(--muted)}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 12px/1.3 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+tfoot td{font-weight:600}
+.note{font-size:13px;color:var(--muted)}
+.warn{background:var(--warn-soft);border-radius:10px;padding:16px 18px}
+.warn h3{color:var(--warn)}
+.warn ul{margin:6px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.path{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.path .price{font:600 20px/1.2 var(--display)}
+.links{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+.links span{color:var(--muted);font-size:14px}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Prepared for Christopher Amolette · SDMacTech · Nov 12, 2026</div>
+  <h1>Turning a 27" 5K iMac into a 5K Display</h1>
+  <p class="lede">The iMac's screen is the same 5120 x 2880 panel Apple uses in the Studio Display. We take the computer out, put in a display driver board, and the iMac becomes a full-resolution monitor for any Mac with USB-C or Thunderbolt.</p>
+</header>
+
+<div class="sum">
+  <div><b>About $432</b><span>parts, plus shipping and tax</span></div>
+  <div><b>7 to 15 days</b><span>for the driver board to arrive; everything else 1 to 3 days</span></div>
+  <div><b>5K at 60 Hz</b><span>10-bit color on an Apple silicon Mac</span></div>
+  <div><b>One way</b><span>the iMac stops being a computer</span></div>
+</div>
+
+<section>
+  <h2>First, check the iMac</h2>
+  <div class="check">
+    <p>This plan only fits a <b>27-inch iMac with Retina 5K display, 2014 to 2020</b> (model A1419 or A2115, printed under the stand). When the screen comes off, the sticker on the back of the panel should read <code>LM270QQ1</code> or <code>LM270QQ2</code>. The board is ordered to match that sticker, so we read it before buying. Apple's Target Display Mode does not work on 5K iMacs, which is why the conversion needs new hardware.</p>
+  </div>
+</section>
+
+<section>
+  <h2>What you keep and what you lose</h2>
+  <div class="cols">
+    <div><h3>Keep</h3><ul class="k keep">
+      <li>Full 5K resolution at 60 Hz</li>
+      <li>The iMac's speakers, through small crossover filters</li>
+      <li>One cable from the Mac, with up to 65 W of laptop charging over USB-C</li>
+      <li>Brightness and volume from the Mac keyboard (free BetterDisplay app)</li>
+      <li>The original look: power cord in the original socket, cables out through the memory door</li>
+      <li>Extra inputs: DisplayPort and HDMI</li>
+    </ul></div>
+    <div><h3>Lose</h3><ul class="k lose">
+      <li>The iMac as a computer</li>
+      <li>Built-in camera and microphones</li>
+      <li>SD card slot, headphone jack, Thunderbolt 2 ports</li>
+      <li>On some 2014-2015 panels, a faint pink tint along the edges may show up</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <h2>What the job involves</h2>
+  <ol class="steps">
+    <li><div><h3>Open the iMac</h3><p>Unplug it and wait 30 minutes so the internal power supply drains. Cut the screen adhesive with an opening wheel and lift the glass panel off.</p></div></li>
+    <li><div><h3>Remove the computer</h3><p>Take out the logic board, Apple power supply, drive, and Wi-Fi antennas. Keep the speakers, the fan, and the power inlet cable.</p></div></li>
+    <li><div><h3>Bench test first</h3><p>Plug the panel's data and backlight cables into the new board and confirm a 5K picture from a Mac before anything gets mounted.</p></div></li>
+    <li><div><h3>Mount the board</h3><p>Fasten it on standoffs so its ports line up with the memory door. That door becomes the cable opening.</p></div></li>
+    <li><div><h3>Install the power supply</h3><p>A Mean Well 24 V supply sits inside the case. It is wired to the iMac's original power socket with a small connector and grounded to the case, so the stock power cord still works.</p></div></li>
+    <li><div><h3>Cooling and sound</h3><p>The iMac fan runs through a Noctua speed controller so it stays quiet. The speakers connect through a capacitor and coil on each side.</p></div></li>
+    <li><div><h3>Test, then seal</h3><p>Check picture, sound, charging and heat. Then apply new adhesive strips and press the glass back on.</p></div></li>
+  </ol>
+  <p class="note">Rough time: a basic board swap runs about 1 to 2 hours. The full build above (internal power supply, speakers, quiet fan) is closer to a full day, plus the wait for parts.</p>
+</section>
+
+<section>
+  <h2>Parts and cost</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>Part</th><th>Where</th><th>Price</th><th>Delivery</th></tr></thead>
+    <tbody>
+      <tr><td>R1820 driver board, Package A (LM270QQ1)</td><td><a href="https://www.stonetaskin.com/products/stonetaskin-latest-5k-lcd-driver-board-r1820-v1-0-for-imac-27-lm270qq1-lm270qq2-hdmi-2-1-dp-1-4-usb-3-0-upgrade-diy-5k-monitor">StoneTaskin</a></td><td class="n">$220.00</td><td>7 to 15 days</td></tr>
+      <tr><td>Mean Well NSP-200-24 power supply</td><td><a href="https://www.mouser.com/ProductDetail/MEAN-WELL/NSP-200-24">Mouser</a> or <a href="https://www.trcelectronics.com/products/mean-well-nsp-200-24">TRC</a> ($54.07)</td><td class="n">$42.21</td><td>In stock</td></tr>
+      <tr><td>Molex 43640-0300 plug and 43031-0021 pins</td><td><a href="https://www.mouser.com/ProductDetail/Molex/43640-0300">Mouser</a></td><td class="n">$1.50</td><td>In stock</td></tr>
+      <tr><td>Micro-Fit crimping tool</td><td><a href="https://www.amazon.com/dp/B0H8J4769D">Amazon</a></td><td class="n">$24.96</td><td>1 to 2 days</td></tr>
+      <tr><td>Noctua NA-FC1 fan controller</td><td><a href="https://www.amazon.com/dp/B072M2HKSN">Amazon</a></td><td class="n">$26.95</td><td>1 to 2 days</td></tr>
+      <tr><td>Speaker crossovers: 2 capacitors, 2 coils</td><td><a href="https://www.parts-express.com/Dayton-Audio-LW18-15-0.15mH-18-AWG-Perfect-Layer-Inductor-257-804">Parts Express</a></td><td class="n">$11.98</td><td>3 to 5 days</td></tr>
+      <tr><td>Cable Matters USB-C to DisplayPort 1.4, 6 ft</td><td><a href="https://www.amazon.com/dp/B01J6DT070">Amazon</a></td><td class="n">$18.99</td><td>1 to 2 days</td></tr>
+      <tr><td>iFixit screen adhesive strips</td><td><a href="https://www.ifixit.com/products/imac-intel-27-2012-2019-adhesive-strips">iFixit</a></td><td class="n">$29.99</td><td>Ships same day</td></tr>
+      <tr><td>iFixit opening wheel</td><td><a href="https://www.ifixit.com/products/imac-opening-wheel">iFixit</a></td><td class="n">$7.99</td><td>Ships same day</td></tr>
+      <tr><td>Power lead, Kapton tape, standoffs, 18 AWG wire</td><td>Amazon</td><td class="n">$46.95</td><td>1 to 2 days</td></tr>
+    </tbody>
+    <tfoot><tr><td>Total</td><td></td><td class="n">about $432</td><td>plus shipping and tax</td></tr></tfoot>
+  </table></div>
+  <p class="note">Prices checked November 12, 2026, and they move. Optional: a $16.99 Silkland 40 Gbps USB4 cable if you want one cable to carry picture and laptop charging. If you already own the tape, wire and standoffs, the total drops to about $395.</p>
+</section>
+
+<section>
+  <div class="warn">
+    <h3>Things to know before deciding</h3>
+    <ul>
+      <li>This involves mains wiring inside the case. Done right it is safe; done wrong it is a shock and fire risk.</li>
+      <li>The glass panel is large and fragile, and replacements are expensive.</li>
+      <li>The R1820 board is new (February 2026). One owner reported its USB-C port failing after two months while HDMI kept working, so keep the box and receipt.</li>
+      <li>For comparison: a refurbished Apple Studio Display starts around $1,020, and a used LG UltraFine 5K runs about $449.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Two ways to do it</h2>
+  <div class="paths">
+    <div class="path">
+      <h3>You do it</h3>
+      <div class="price">About $432 in parts</div>
+      <p>Plus your time, a soldering iron, and Torx screwdrivers. Best if you are comfortable with electronics and mains wiring. The guides below cover every step.</p>
+    </div>
+    <div class="path">
+      <h3>SDMacTech does it</h3>
+      <div class="price">Same parts, plus labor</div>
+      <p>We order the parts, do the build and testing, and hand back a finished display. Call me for labor rates or book a time.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Install guides</h2>
+  <p>No one has published a start-to-finish video for the R1820 yet. It mounts and connects like the older R1811 and SA1 boards, so these guides apply.</p>
+  <ul class="links">
+    <li><a href="https://www.youtube.com/watch?v=5q3SdtiLAPk">Snazzy Labs: I Turned a $200 iMac Into a $1,600 Studio Display</a> <span>33 min video. Internal power supply, speakers, fan control.</span></li>
+    <li><a href="https://imactostudiodisplay.notion.site/">Snazzy Labs build guide</a> <span>Written parts list and 3D-printable mounts.</span></li>
+    <li><a href="https://github.com/aiwipro/5K-iMac-Studio-Display-Stock-Look">aiwipro: 5K iMac Studio Display, Stock Look</a> <span>Photo build log closest to this plan.</span></li>
+    <li><a href="https://github.com/kurtshuler/imac-5k-monitor-conversion">kurtshuler: Late 2015 iMac conversion</a> <span>Close-up photos of the panel cable connections.</span></li>
+    <li><a href="https://www.youtube.com/watch?v=YkM1ha2EYjo">RandomDIY: R1820 build</a> <span>6 min video on this exact board and how it was mounted.</span></li>
+    <li><a href="https://www.youtube.com/watch?v=FcqjH8EOy9c">Carter Nolan: 10 year old iMac into a Studio Display</a> <span>18 min full build.</span></li>
+    <li><a href="https://www.macfixit.com.au/pages/how-to-install-an-lcd-display-driver-board-for-for-for-imac-27-5k-2014-2020">Macfixit install steps</a> <span>Written order of work and connection checks.</span></li>
+    <li><a href="https://forums.macrumors.com/threads/diy-5k-monitor-success.2253100/page-166">MacRumors: DIY 5K Monitor thread</a> <span>The community's working notes, 166 pages.</span></li>
+  </ul>
+</section>
+
+<footer>Prepared by SDMacTech. Prices and stock were checked November 12, 2026, and may change before ordering.</footer>
+</div>
+
+</body>
+</html>
